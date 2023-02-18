@@ -135,9 +135,22 @@ while True:
     x = cos(Sun_Declination_r)*sin(-Observer_True_Hour_Angle_r)/cos(Sun_Altitude_r)
     y = (sin(Sun_Declination_r)-sin(Sun_Altitude_r)*sin(Observer_Latitude))/(cos(Sun_Altitude_r)*cos(Observer_Latitude))
 
+    #Sun_Azimuth_r = atan(sin(Observer_True_Hour_Angle_r) / (cos(Latitude) * tan(Sun_Declination_r)) - tan(Latitude) * cos(Observer_True_Hour_Angle_r))
+    #Sun_Azimuth_r = atan2(x,y)
+    #Sun_Azimuth_d = degrees(Sun_Azimuth_r)
 
-    Sun_Azimuth_r = atan2(x,y)
-    Sun_Azimuth_d = degrees(Sun_Azimuth_r)
+    def calculate_sun_azimuth():
+        azimuth = atan(sin(Observer_True_Hour_Angle_r) / (cos(Latitude) * tan(Sun_Declination_r)) - tan(Latitude) * cos(Observer_True_Hour_Angle_r))
+        azimuth = degrees(azimuth)
+
+        if (sin(Observer_True_Hour_Angle_d) < 0):
+            azimuth += 180
+        if (azimuth < 0):
+            azimuth += 360
+
+        return azimuth
+
+    Sun_Azimuth_d = calculate_sun_azimuth()
 
     # The Refraction Correction for The Sun's Altitude 
 
