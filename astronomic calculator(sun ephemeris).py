@@ -139,11 +139,17 @@ while True:
     #Sun_Azimuth_r = atan2(x,y)
     #Sun_Azimuth_d = degrees(Sun_Azimuth_r)
 
+    local_solar_time = ST_hrs + ((Longitude - Time_Zone*15)*4 + Equation_of_Time_Gnomical_min)/60
+
     def calculate_sun_azimuth():
-        azimuth = atan(sin(Observer_True_Hour_Angle_r) / (cos(Latitude) * tan(Sun_Declination_r)) - tan(Latitude) * cos(Observer_True_Hour_Angle_r))
+
+        hour_angle = 15 * (local_solar_time - 12)
+        hour_angle = radians(hour_angle)
+
+        azimuth = atan(sin(hour_angle) / (cos(Latitude) * tan(Sun_Declination_r)) - tan(Latitude) * cos(hour_angle))
         azimuth = degrees(azimuth)
 
-        if (sin(Observer_True_Hour_Angle_d) < 0):
+        if (sin(hour_angle) < 0):
             azimuth += 180
         if (azimuth < 0):
             azimuth += 360
