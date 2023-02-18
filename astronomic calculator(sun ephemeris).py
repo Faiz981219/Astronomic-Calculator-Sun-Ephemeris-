@@ -163,7 +163,7 @@ while True:
     humidity= humidityinp/100
 
     def refractionhumid():
-        rr = Sun_Azimuth_d
+        rr = Sun_Altitude_d
         if (rr>15):
             ref=0.00452*tan(radians(Sun_Zenith_Distance))*atmospheric_pressure_milibars/((1+(7.5e-4*humidity))* (temperature+273.15))
         else:
