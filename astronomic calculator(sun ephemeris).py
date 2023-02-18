@@ -152,7 +152,7 @@ while True:
     atmospheric_pressure_milibars= atmospheric_pressure()/100
 
     def refraction():
-        rr = Sun_Azimuth_d
+        rr = Sun_Altitude_d
         if (rr>15):
             ref=0.00452*tan(radians(Sun_Zenith_Distance))*atmospheric_pressure_milibars/(temperature+273.15)
         else:
