@@ -193,6 +193,7 @@ while True:
     print('Latitude: '+str(Latitude))
     print('Longitude: '+str(Longitude))
     print('Location: ' + location.address)
+    print('Date & Time Calculation: ' +Year + '-' + Month + '-' + Second + '' + Hour + ':' + Minute + ':' + Second)
     print('\nGMST: '+str(Greanwitch_Mean_Sideral_Time_d))
     print("Sun's Mean Longitude: " + str(Sun_Mean_Longitude_d))
     print('Perihelion Longitude: ' +str(Perihelion_Longitude_d))
