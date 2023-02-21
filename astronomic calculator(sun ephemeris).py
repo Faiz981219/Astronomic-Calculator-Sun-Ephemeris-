@@ -134,7 +134,7 @@ while True:
 
     Sun_Zenith_Distance = 90 - Sun_Altitude_d
 
-    local_hour_angle = radians(15 * (ST_hrs + Equation_of_Time_Gnomical_min - 12))
+    local_hour_angle = 15 * ((ST_hrs+(Longitude-Time_Zone*15)/15) + Equation_of_Time_Gnomical_min/60 - 12)
     Sun_Azimuth_r = acos((sin(Sun_Declination_r)-cos(radians(Sun_Zenith_Distance))*sin(Observer_Latitude))/(sin(radians(Sun_Zenith_Distance))*cos(Observer_Latitude)))
     Sun_Azimuth_degree = degrees(Sun_Azimuth_r)
 
@@ -183,8 +183,10 @@ while True:
     os.system('cls' if os.name=='nt' else 'clear')
 
     my_banner()
-
-    print('GMST: '+str(Greanwitch_Mean_Sideral_Time_d))
+    
+    print('Latitude: '+str(Latitude))
+    print('Longitude: '+str(Longitude))
+    print('\nGMST: '+str(Greanwitch_Mean_Sideral_Time_d))
     print("Sun's Mean Longitude: " + str(Sun_Mean_Longitude_d))
     print('Perihelion Longitude: ' +str(Perihelion_Longitude_d))
     print('Ecentricity: ' +str(Ecentricity))
@@ -194,6 +196,7 @@ while True:
     print("Sun's Declination: " +str(Sun_Declination_d))
     print('Right Ascension: ' +str(Right_Ascension_d))
     print('Equation of Time Gnomical in minutes: ' +str(Equation_of_Time_Gnomical_min))
+    print('Local Hour Angle: ' +str(local_hour_angle))
     print('Observer True Hour Angle: ' +str(Observer_True_Hour_Angle_d))
     print("Sun's Altitude: " +str(Sun_Altitude_d))
     print("Sun's Zenith Distance: " +str(Sun_Zenith_Distance))
