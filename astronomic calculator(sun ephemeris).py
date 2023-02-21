@@ -1,6 +1,8 @@
 from math import *
 import os
 import datetime
+import pysolar.solar as ps
+#import pytz
 
 # Banner
 while True:
@@ -132,32 +134,17 @@ while True:
 
     Sun_Zenith_Distance = 90 - Sun_Altitude_d
 
-    x = cos(Sun_Declination_r)*sin(-Observer_True_Hour_Angle_r)/cos(Sun_Altitude_r)
-    y = (sin(Sun_Declination_r)-sin(Sun_Altitude_r)*sin(Observer_Latitude))/(cos(Sun_Altitude_r)*cos(Observer_Latitude))
+    local_hour_angle = radians(15 * (ST_hrs + Equation_of_Time_Gnomical_min - 12))
+    Sun_Azimuth_r = acos((sin(Sun_Declination_r)-cos(radians(Sun_Zenith_Distance))*sin(Observer_Latitude))/(sin(radians(Sun_Zenith_Distance))*cos(Observer_Latitude)))
+    Sun_Azimuth_degree = degrees(Sun_Azimuth_r)
 
-    #Sun_Azimuth_r = atan(sin(Observer_True_Hour_Angle_r) / (cos(Latitude) * tan(Sun_Declination_r)) - tan(Latitude) * cos(Observer_True_Hour_Angle_r))
-    #Sun_Azimuth_r = atan2(x,y)
-    #Sun_Azimuth_d = degrees(Sun_Azimuth_r)
+    if (local_hour_angle>0):
+        SA_d = 360 - Sun_Azimuth_degree
+    else:
+        SA_d = Sun_Azimuth_degree
 
-    local_solar_time = ST_hrs + ((Longitude - Time_Zone*15)*4 + Equation_of_Time_Gnomical_min)/60
-
-    def calculate_sun_azimuth():
-
-        hour_angle = 15 * (local_solar_time - 12)
-        hour_angle = radians(hour_angle)
-
-        azimuth = atan(sin(hour_angle) / (cos(Latitude) * tan(Sun_Declination_r)) - tan(Latitude) * cos(hour_angle))
-        azimuth = degrees(azimuth)
-
-        if (sin(hour_angle) < 0):
-            azimuth += 180
-        if (azimuth < 0):
-            azimuth += 360
-
-        return azimuth
-
-    Sun_Azimuth_d = calculate_sun_azimuth()
-
+    Sun_Azimuth_d = SA_d % 360
+    
     # The Refraction Correction for The Sun's Altitude 
 
     def atmospheric_pressure():
