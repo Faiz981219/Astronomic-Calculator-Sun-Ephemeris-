@@ -2,6 +2,8 @@ from math import *
 import os
 import datetime
 import pysolar.solar as ps
+from geopy.geocoders import Nominatim
+
 #import pytz
 
 # Banner
@@ -21,6 +23,10 @@ while True:
     # Input from Observer 
     Latitude = float(input('Latitude: '))
     Longitude = float(input('Longitude: '))
+
+    geolocator = Nominatim(user_agent="my-application/1.0")
+    location = geolocator.reverse(f"{Latitude}, {Longitude}")
+
     Time_Zone = int(input('GMT: '))
     DST_Hour = int(input('DST: '))
 
@@ -134,7 +140,7 @@ while True:
 
     Sun_Zenith_Distance = 90 - Sun_Altitude_d
 
-    local_hour_angle = 15 * ((ST_hrs+(Longitude-Time_Zone*15)/15) + Equation_of_Time_Gnomical_min/60 - 12)
+    local_hour_angle = 15 * ((ST_hrs+(Longitude-Time_Zone*15)/15) - Equation_of_Time_Gnomical_min/60 - 12)
     Sun_Azimuth_r = acos((sin(Sun_Declination_r)-cos(radians(Sun_Zenith_Distance))*sin(Observer_Latitude))/(sin(radians(Sun_Zenith_Distance))*cos(Observer_Latitude)))
     Sun_Azimuth_degree = degrees(Sun_Azimuth_r)
 
@@ -186,6 +192,7 @@ while True:
     
     print('Latitude: '+str(Latitude))
     print('Longitude: '+str(Longitude))
+    print('Location: ' + location.address)
     print('\nGMST: '+str(Greanwitch_Mean_Sideral_Time_d))
     print("Sun's Mean Longitude: " + str(Sun_Mean_Longitude_d))
     print('Perihelion Longitude: ' +str(Perihelion_Longitude_d))
